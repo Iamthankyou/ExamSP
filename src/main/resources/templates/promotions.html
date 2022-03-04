@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Promotions Managment</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <script>
+
+    function Save() {
+    document.getElementById('opType').value ="save";
+    }
+    function Search(){
+    document.getElementById('opType').value ="search";
+    }
+    </script>
+
+</head>
+
+<body>
+
+    <form action="#" id="form_id" th:action="@{/promotions}" th:object="${promotion}" method="post">
+
+        <p><label>Title:</label> </p>
+         <input type="text" th:field="*{title}"  />
+        <p><label>Start</label> </p>
+        <input type="date" th:field="*{startDay}"  />
+        <p><label>End</label> </p>
+        <input type="date" th:field="*{endDay}"  />
+        <p><label>Voucher</label> </p>
+        <input type="text" th:field="*{voucher}"  />
+        <p><label>Detail</label> </p>
+        <input type="text" th:field="*{detail}"  />
+      <p> <input type="hidden" id="opType" th:field="*{operationType}" /></p>
+        <p><input type="submit" onclick="Save()" value="Save" /> </p>
+        <p><input type="submit" onclick="Save()" value="Update" /> </p>
+        <p><input type="submit" onclick="Search()" value="Search" /> </p>
+
+
+    </form>
+
+    <table id="table" border="1" class="myTable">
+    <tr>
+        <th>Title</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Voucher</th>
+        <th>Detail</th>
+        <th>Edit</th>
+        <th>Remove</th>
+    </tr>
+    <tr th:each = "acca : ${promotions}">
+
+        <td th:text="${acca.getTitle()}" onclick="Save()"> </td>
+        <td th:text="${acca.getStartDay()}"></td>
+        <td th:text="${acca.getEndDay()}"></td>
+        <td th:text="${acca.getVoucher()}"></td>
+        <td th:text="${acca.getDetail()}"></td>
+
+        <td>    <form method="POST" th:action="@{/edit(id=${acca.id})}">
+            <button type="submit">Edit</button></form>
+
+        </td>
+
+        <td>    <form method="POST" th:action="@{/delete(id=${acca.id})}">
+            <button type="submit">Remove</button></form>
+        </td>
+    </tr>
+    </table>
+
+</body>
+</html>
